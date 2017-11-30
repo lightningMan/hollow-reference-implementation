@@ -40,6 +40,6 @@ public class S3Announcer implements Announcer {
     public void announce(long stateVersion) {
         s3.putObject(bucketName, blobNamespace + "/" + ANNOUNCEMENT_OBJECTNAME, String.valueOf(stateVersion));
     }
-    
-    
+
+
 }

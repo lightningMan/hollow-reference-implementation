@@ -11,7 +11,7 @@ public class ActorDelegateCachedImpl extends HollowObjectAbstractDelegate implem
 
     private final Integer actorId;
     private final int actorNameOrdinal;
-   private ActorTypeAPI typeAPI;
+    private ActorTypeAPI typeAPI;
 
     public ActorDelegateCachedImpl(ActorTypeAPI typeAPI, int ordinal) {
         this.actorId = typeAPI.getActorIdBoxed(ordinal);

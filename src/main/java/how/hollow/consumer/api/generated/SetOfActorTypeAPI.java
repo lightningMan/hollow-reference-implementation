@@ -20,7 +20,7 @@ public class SetOfActorTypeAPI extends HollowSetTypeAPI {
     }
 
     public MovieAPI getAPI() {
-        return (MovieAPI)api;
+        return (MovieAPI) api;
     }
 
     public HollowSetLookupDelegate getDelegateLookupImpl() {

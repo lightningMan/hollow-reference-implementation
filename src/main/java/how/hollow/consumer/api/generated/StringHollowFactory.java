@@ -9,12 +9,12 @@ public class StringHollowFactory<T extends HString> extends HollowFactory<T> {
 
     @Override
     public T newHollowObject(HollowTypeDataAccess dataAccess, HollowTypeAPI typeAPI, int ordinal) {
-        return (T)new HString(((StringTypeAPI)typeAPI).getDelegateLookupImpl(), ordinal);
+        return (T) new HString(((StringTypeAPI) typeAPI).getDelegateLookupImpl(), ordinal);
     }
 
     @Override
     public T newCachedHollowObject(HollowTypeDataAccess dataAccess, HollowTypeAPI typeAPI, int ordinal) {
-        return (T)new HString(new StringDelegateCachedImpl((StringTypeAPI)typeAPI, ordinal), ordinal);
+        return (T) new HString(new StringDelegateCachedImpl((StringTypeAPI) typeAPI, ordinal), ordinal);
     }
 
 }

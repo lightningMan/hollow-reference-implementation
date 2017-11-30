@@ -9,12 +9,12 @@ public class ActorHollowFactory<T extends Actor> extends HollowFactory<T> {
 
     @Override
     public T newHollowObject(HollowTypeDataAccess dataAccess, HollowTypeAPI typeAPI, int ordinal) {
-        return (T)new Actor(((ActorTypeAPI)typeAPI).getDelegateLookupImpl(), ordinal);
+        return (T) new Actor(((ActorTypeAPI) typeAPI).getDelegateLookupImpl(), ordinal);
     }
 
     @Override
     public T newCachedHollowObject(HollowTypeDataAccess dataAccess, HollowTypeAPI typeAPI, int ordinal) {
-        return (T)new Actor(new ActorDelegateCachedImpl((ActorTypeAPI)typeAPI, ordinal), ordinal);
+        return (T) new Actor(new ActorDelegateCachedImpl((ActorTypeAPI) typeAPI, ordinal), ordinal);
     }
 
 }

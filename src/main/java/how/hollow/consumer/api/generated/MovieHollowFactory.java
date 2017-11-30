@@ -9,12 +9,12 @@ public class MovieHollowFactory<T extends Movie> extends HollowFactory<T> {
 
     @Override
     public T newHollowObject(HollowTypeDataAccess dataAccess, HollowTypeAPI typeAPI, int ordinal) {
-        return (T)new Movie(((MovieTypeAPI)typeAPI).getDelegateLookupImpl(), ordinal);
+        return (T) new Movie(((MovieTypeAPI) typeAPI).getDelegateLookupImpl(), ordinal);
     }
 
     @Override
     public T newCachedHollowObject(HollowTypeDataAccess dataAccess, HollowTypeAPI typeAPI, int ordinal) {
-        return (T)new Movie(new MovieDelegateCachedImpl((MovieTypeAPI)typeAPI, ordinal), ordinal);
+        return (T) new Movie(new MovieDelegateCachedImpl((MovieTypeAPI) typeAPI, ordinal), ordinal);
     }
 
 }

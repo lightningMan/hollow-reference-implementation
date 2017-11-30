@@ -29,6 +29,7 @@ import com.netflix.hollow.api.consumer.HollowConsumer.Blob;
 import com.netflix.hollow.api.consumer.HollowConsumer.BlobRetriever;
 import com.netflix.hollow.core.memory.encoding.VarInt;
 import how.hollow.producer.infrastructure.S3Publisher;
+
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -53,38 +54,39 @@ public class S3BlobRetriever implements BlobRetriever {
     public Blob retrieveSnapshotBlob(long desiredVersion) {
         try {
             return knownSnapshotBlob(desiredVersion);
-        } catch (AmazonS3Exception transitionNotFound) { } 
+        } catch (AmazonS3Exception transitionNotFound) {
+        }
 
         /// There was no exact match for a snapshot leading to the desired state. 
         /// We'll use the snapshot index to find the nearest one before the desired state.
         try {
-        	File f = downloadFile(S3Publisher.getSnapshotIndexObjectName(blobNamespace));
-        	long snapshotIdxLength = f.length();
-        	long pos = 0;
-        	long currentSnapshotStateId = 0;
-        	
-        	try(InputStream is = new BufferedInputStream(new FileInputStream(f))) {
-        		while(pos < snapshotIdxLength) {
-        			long nextGap = VarInt.readVLong(is);
-        			
-        			if(currentSnapshotStateId + nextGap > desiredVersion) {
-        				if(currentSnapshotStateId == 0)
-        					return null;
-        				
-        				return knownSnapshotBlob(currentSnapshotStateId);
-        			}
-        			
-        			currentSnapshotStateId += nextGap;
-        			pos += VarInt.sizeOfVLong(nextGap);
-        		}
-        		
-                if(currentSnapshotStateId != 0)
+            File f = downloadFile(S3Publisher.getSnapshotIndexObjectName(blobNamespace));
+            long snapshotIdxLength = f.length();
+            long pos = 0;
+            long currentSnapshotStateId = 0;
+
+            try (InputStream is = new BufferedInputStream(new FileInputStream(f))) {
+                while (pos < snapshotIdxLength) {
+                    long nextGap = VarInt.readVLong(is);
+
+                    if (currentSnapshotStateId + nextGap > desiredVersion) {
+                        if (currentSnapshotStateId == 0)
+                            return null;
+
+                        return knownSnapshotBlob(currentSnapshotStateId);
+                    }
+
+                    currentSnapshotStateId += nextGap;
+                    pos += VarInt.sizeOfVLong(nextGap);
+                }
+
+                if (currentSnapshotStateId != 0)
                     return knownSnapshotBlob(currentSnapshotStateId);
-        	}
-        } catch(IOException e) {
-        	throw new RuntimeException(e);
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
-        
+
         return null;
     }
 
@@ -113,7 +115,7 @@ public class S3BlobRetriever implements BlobRetriever {
 
         return new S3Blob(objectName, toState);
     }
-    
+
     private Blob knownDeltaBlob(String fileType, long fromVersion) {
         String objectName = S3Publisher.getS3ObjectName(blobNamespace, fileType, fromVersion);
         ObjectMetadata objectMetadata = s3.getObjectMetadata(bucketName, objectName);
@@ -140,7 +142,7 @@ public class S3BlobRetriever implements BlobRetriever {
         @Override
         public InputStream getInputStream() throws IOException {
 
-        	final File tempFile = downloadFile(objectName);
+            final File tempFile = downloadFile(objectName);
 
             return new BufferedInputStream(new FileInputStream(tempFile)) {
                 @Override
@@ -153,19 +155,19 @@ public class S3BlobRetriever implements BlobRetriever {
         }
 
     }
-    
+
     private File downloadFile(String objectName) throws IOException {
-    	File tempFile = new File(System.getProperty("java.io.tmpdir"), objectName.replace('/', '-'));
-    	
-    	Download download = s3TransferManager.download(bucketName, objectName, tempFile);
-    	
-    	try {
-    	    download.waitForCompletion();
-    	} catch(SdkBaseException | InterruptedException e) {
-    	    throw new RuntimeException(e);
-    	}
-    	
-    	return tempFile;
+        File tempFile = new File(System.getProperty("java.io.tmpdir"), objectName.replace('/', '-'));
+
+        Download download = s3TransferManager.download(bucketName, objectName, tempFile);
+
+        try {
+            download.waitForCompletion();
+        } catch (SdkBaseException | InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
+        return tempFile;
     }
 
 }

@@ -10,12 +10,12 @@ public class SetOfActorHollowFactory<T extends SetOfActor> extends HollowFactory
 
     @Override
     public T newHollowObject(HollowTypeDataAccess dataAccess, HollowTypeAPI typeAPI, int ordinal) {
-        return (T)new SetOfActor(((SetOfActorTypeAPI)typeAPI).getDelegateLookupImpl(), ordinal);
+        return (T) new SetOfActor(((SetOfActorTypeAPI) typeAPI).getDelegateLookupImpl(), ordinal);
     }
 
     @Override
     public T newCachedHollowObject(HollowTypeDataAccess dataAccess, HollowTypeAPI typeAPI, int ordinal) {
-        return (T)new SetOfActor(new HollowSetCachedDelegate((SetOfActorTypeAPI)typeAPI, ordinal), ordinal);
+        return (T) new SetOfActor(new HollowSetCachedDelegate((SetOfActorTypeAPI) typeAPI, ordinal), ordinal);
     }
 
 }

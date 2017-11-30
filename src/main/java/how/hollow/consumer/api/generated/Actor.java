@@ -20,9 +20,9 @@ public class Actor extends HollowObject {
 
     public HString getActorName() {
         int refOrdinal = delegate().getActorNameOrdinal(ordinal);
-        if(refOrdinal == -1)
+        if (refOrdinal == -1)
             return null;
-        return  api().getHString(refOrdinal);
+        return api().getHString(refOrdinal);
     }
 
     public MovieAPI api() {
@@ -34,7 +34,7 @@ public class Actor extends HollowObject {
     }
 
     protected ActorDelegate delegate() {
-        return (ActorDelegate)delegate;
+        return (ActorDelegate) delegate;
     }
 
 }

@@ -1,17 +1,17 @@
 buildscript {
-  repositories { jcenter() }
+    repositories { jcenter() }
 }
- 
+
 plugins {
-  id 'nebula.netflixoss' version '3.5.2'
+    id 'nebula.netflixoss' version '3.5.2'
 }
- 
+
 apply plugin: 'java'
- 
+
 repositories {
-  jcenter()
+    jcenter()
 }
- 
+
 dependencies {
     compile 'com.netflix.hollow:hollow:2.6.8'
     compile 'com.netflix.hollow:hollow-diff-ui:2.6.8'
@@ -20,8 +20,8 @@ dependencies {
 
     compile 'com.amazonaws:aws-java-sdk-s3:1.11.49'
     compile 'com.amazonaws:aws-java-sdk-dynamodb:1.11.49'
-    
+
     compile 'commons-io:commons-io:2.4'
-    
+
     testCompile 'junit:junit:4.11'
 }

@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Set;
 import java.util.Map;
+
 import com.netflix.hollow.api.custom.HollowAPI;
 import com.netflix.hollow.core.read.dataaccess.HollowDataAccess;
 import com.netflix.hollow.core.read.dataaccess.HollowTypeDataAccess;
@@ -56,21 +57,21 @@ public class MovieAPI extends HollowAPI {
         HollowTypeDataAccess typeDataAccess;
         HollowFactory factory;
 
-        objectCreationSampler = new HollowObjectCreationSampler("String","Actor","SetOfActor","Movie");
+        objectCreationSampler = new HollowObjectCreationSampler("String", "Actor", "SetOfActor", "Movie");
 
         typeDataAccess = dataAccess.getTypeDataAccess("String");
-        if(typeDataAccess != null) {
-            stringTypeAPI = new StringTypeAPI(this, (HollowObjectTypeDataAccess)typeDataAccess);
+        if (typeDataAccess != null) {
+            stringTypeAPI = new StringTypeAPI(this, (HollowObjectTypeDataAccess) typeDataAccess);
         } else {
             stringTypeAPI = new StringTypeAPI(this, new HollowObjectMissingDataAccess(dataAccess, "String"));
         }
         addTypeAPI(stringTypeAPI);
         factory = factoryOverrides.get("String");
-        if(factory == null)
+        if (factory == null)
             factory = new StringHollowFactory();
-        if(cachedTypes.contains("String")) {
+        if (cachedTypes.contains("String")) {
             HollowObjectCacheProvider previousCacheProvider = null;
-            if(previousCycleAPI != null && (previousCycleAPI.stringProvider instanceof HollowObjectCacheProvider))
+            if (previousCycleAPI != null && (previousCycleAPI.stringProvider instanceof HollowObjectCacheProvider))
                 previousCacheProvider = (HollowObjectCacheProvider) previousCycleAPI.stringProvider;
             stringProvider = new HollowObjectCacheProvider(typeDataAccess, stringTypeAPI, factory, previousCacheProvider);
         } else {
@@ -78,18 +79,18 @@ public class MovieAPI extends HollowAPI {
         }
 
         typeDataAccess = dataAccess.getTypeDataAccess("Actor");
-        if(typeDataAccess != null) {
-            actorTypeAPI = new ActorTypeAPI(this, (HollowObjectTypeDataAccess)typeDataAccess);
+        if (typeDataAccess != null) {
+            actorTypeAPI = new ActorTypeAPI(this, (HollowObjectTypeDataAccess) typeDataAccess);
         } else {
             actorTypeAPI = new ActorTypeAPI(this, new HollowObjectMissingDataAccess(dataAccess, "Actor"));
         }
         addTypeAPI(actorTypeAPI);
         factory = factoryOverrides.get("Actor");
-        if(factory == null)
+        if (factory == null)
             factory = new ActorHollowFactory();
-        if(cachedTypes.contains("Actor")) {
+        if (cachedTypes.contains("Actor")) {
             HollowObjectCacheProvider previousCacheProvider = null;
-            if(previousCycleAPI != null && (previousCycleAPI.actorProvider instanceof HollowObjectCacheProvider))
+            if (previousCycleAPI != null && (previousCycleAPI.actorProvider instanceof HollowObjectCacheProvider))
                 previousCacheProvider = (HollowObjectCacheProvider) previousCycleAPI.actorProvider;
             actorProvider = new HollowObjectCacheProvider(typeDataAccess, actorTypeAPI, factory, previousCacheProvider);
         } else {
@@ -97,18 +98,18 @@ public class MovieAPI extends HollowAPI {
         }
 
         typeDataAccess = dataAccess.getTypeDataAccess("SetOfActor");
-        if(typeDataAccess != null) {
-            setOfActorTypeAPI = new SetOfActorTypeAPI(this, (HollowSetTypeDataAccess)typeDataAccess);
+        if (typeDataAccess != null) {
+            setOfActorTypeAPI = new SetOfActorTypeAPI(this, (HollowSetTypeDataAccess) typeDataAccess);
         } else {
             setOfActorTypeAPI = new SetOfActorTypeAPI(this, new HollowSetMissingDataAccess(dataAccess, "SetOfActor"));
         }
         addTypeAPI(setOfActorTypeAPI);
         factory = factoryOverrides.get("SetOfActor");
-        if(factory == null)
+        if (factory == null)
             factory = new SetOfActorHollowFactory();
-        if(cachedTypes.contains("SetOfActor")) {
+        if (cachedTypes.contains("SetOfActor")) {
             HollowObjectCacheProvider previousCacheProvider = null;
-            if(previousCycleAPI != null && (previousCycleAPI.setOfActorProvider instanceof HollowObjectCacheProvider))
+            if (previousCycleAPI != null && (previousCycleAPI.setOfActorProvider instanceof HollowObjectCacheProvider))
                 previousCacheProvider = (HollowObjectCacheProvider) previousCycleAPI.setOfActorProvider;
             setOfActorProvider = new HollowObjectCacheProvider(typeDataAccess, setOfActorTypeAPI, factory, previousCacheProvider);
         } else {
@@ -116,18 +117,18 @@ public class MovieAPI extends HollowAPI {
         }
 
         typeDataAccess = dataAccess.getTypeDataAccess("Movie");
-        if(typeDataAccess != null) {
-            movieTypeAPI = new MovieTypeAPI(this, (HollowObjectTypeDataAccess)typeDataAccess);
+        if (typeDataAccess != null) {
+            movieTypeAPI = new MovieTypeAPI(this, (HollowObjectTypeDataAccess) typeDataAccess);
         } else {
             movieTypeAPI = new MovieTypeAPI(this, new HollowObjectMissingDataAccess(dataAccess, "Movie"));
         }
         addTypeAPI(movieTypeAPI);
         factory = factoryOverrides.get("Movie");
-        if(factory == null)
+        if (factory == null)
             factory = new MovieHollowFactory();
-        if(cachedTypes.contains("Movie")) {
+        if (cachedTypes.contains("Movie")) {
             HollowObjectCacheProvider previousCacheProvider = null;
-            if(previousCycleAPI != null && (previousCycleAPI.movieProvider instanceof HollowObjectCacheProvider))
+            if (previousCycleAPI != null && (previousCycleAPI.movieProvider instanceof HollowObjectCacheProvider))
                 previousCacheProvider = (HollowObjectCacheProvider) previousCycleAPI.movieProvider;
             movieProvider = new HollowObjectCacheProvider(typeDataAccess, movieTypeAPI, factory, previousCacheProvider);
         } else {
@@ -137,28 +138,32 @@ public class MovieAPI extends HollowAPI {
     }
 
     public void detachCaches() {
-        if(stringProvider instanceof HollowObjectCacheProvider)
-            ((HollowObjectCacheProvider)stringProvider).detach();
-        if(actorProvider instanceof HollowObjectCacheProvider)
-            ((HollowObjectCacheProvider)actorProvider).detach();
-        if(setOfActorProvider instanceof HollowObjectCacheProvider)
-            ((HollowObjectCacheProvider)setOfActorProvider).detach();
-        if(movieProvider instanceof HollowObjectCacheProvider)
-            ((HollowObjectCacheProvider)movieProvider).detach();
+        if (stringProvider instanceof HollowObjectCacheProvider)
+            ((HollowObjectCacheProvider) stringProvider).detach();
+        if (actorProvider instanceof HollowObjectCacheProvider)
+            ((HollowObjectCacheProvider) actorProvider).detach();
+        if (setOfActorProvider instanceof HollowObjectCacheProvider)
+            ((HollowObjectCacheProvider) setOfActorProvider).detach();
+        if (movieProvider instanceof HollowObjectCacheProvider)
+            ((HollowObjectCacheProvider) movieProvider).detach();
     }
 
     public StringTypeAPI getStringTypeAPI() {
         return stringTypeAPI;
     }
+
     public ActorTypeAPI getActorTypeAPI() {
         return actorTypeAPI;
     }
+
     public SetOfActorTypeAPI getSetOfActorTypeAPI() {
         return setOfActorTypeAPI;
     }
+
     public MovieTypeAPI getMovieTypeAPI() {
         return movieTypeAPI;
     }
+
     public Collection<HString> getAllHString() {
         return new AllHollowRecordCollection<HString>(getDataAccess().getTypeDataAccess("String").getTypeState()) {
             protected HString getForOrdinal(int ordinal) {
@@ -166,10 +171,12 @@ public class MovieAPI extends HollowAPI {
             }
         };
     }
+
     public HString getHString(int ordinal) {
         objectCreationSampler.recordCreation(0);
-        return (HString)stringProvider.getHollowObject(ordinal);
+        return (HString) stringProvider.getHollowObject(ordinal);
     }
+
     public Collection<Actor> getAllActor() {
         return new AllHollowRecordCollection<Actor>(getDataAccess().getTypeDataAccess("Actor").getTypeState()) {
             protected Actor getForOrdinal(int ordinal) {
@@ -177,10 +184,12 @@ public class MovieAPI extends HollowAPI {
             }
         };
     }
+
     public Actor getActor(int ordinal) {
         objectCreationSampler.recordCreation(1);
-        return (Actor)actorProvider.getHollowObject(ordinal);
+        return (Actor) actorProvider.getHollowObject(ordinal);
     }
+
     public Collection<SetOfActor> getAllSetOfActor() {
         return new AllHollowRecordCollection<SetOfActor>(getDataAccess().getTypeDataAccess("SetOfActor").getTypeState()) {
             protected SetOfActor getForOrdinal(int ordinal) {
@@ -188,10 +197,12 @@ public class MovieAPI extends HollowAPI {
             }
         };
     }
+
     public SetOfActor getSetOfActor(int ordinal) {
         objectCreationSampler.recordCreation(2);
-        return (SetOfActor)setOfActorProvider.getHollowObject(ordinal);
+        return (SetOfActor) setOfActorProvider.getHollowObject(ordinal);
     }
+
     public Collection<Movie> getAllMovie() {
         return new AllHollowRecordCollection<Movie>(getDataAccess().getTypeDataAccess("Movie").getTypeState()) {
             protected Movie getForOrdinal(int ordinal) {
@@ -199,10 +210,12 @@ public class MovieAPI extends HollowAPI {
             }
         };
     }
+
     public Movie getMovie(int ordinal) {
         objectCreationSampler.recordCreation(3);
-        return (Movie)movieProvider.getHollowObject(ordinal);
+        return (Movie) movieProvider.getHollowObject(ordinal);
     }
+
     public void setSamplingDirector(HollowSamplingDirector director) {
         super.setSamplingDirector(director);
         objectCreationSampler.setSamplingDirector(director);

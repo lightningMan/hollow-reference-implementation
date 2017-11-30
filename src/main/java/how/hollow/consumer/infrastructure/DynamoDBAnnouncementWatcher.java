@@ -24,6 +24,7 @@ import com.amazonaws.services.dynamodbv2.document.Item;
 import com.amazonaws.services.dynamodbv2.document.Table;
 import com.netflix.hollow.api.consumer.HollowConsumer;
 import com.netflix.hollow.api.consumer.HollowConsumer.AnnouncementWatcher;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -33,7 +34,7 @@ public class DynamoDBAnnouncementWatcher implements AnnouncementWatcher {
     private final DynamoDB dynamoDB;
     private final String tableName;
     private final String blobNamespace;
-    
+
     private final List<HollowConsumer> subscribedConsumers;
 
     private long latestVersion;
@@ -43,12 +44,12 @@ public class DynamoDBAnnouncementWatcher implements AnnouncementWatcher {
         this.tableName = tableName;
         this.blobNamespace = blobNamespace;
         this.subscribedConsumers = Collections.synchronizedList(new ArrayList<HollowConsumer>());
-        
+
         this.latestVersion = readLatestVersion();
-        
+
         setupPollingThread();
     }
-    
+
     public void setupPollingThread() {
         Thread t = new Thread(new Runnable() {
             public void run() {
@@ -57,7 +58,7 @@ public class DynamoDBAnnouncementWatcher implements AnnouncementWatcher {
                         long currentVersion = readLatestVersion();
                         if (latestVersion != currentVersion) {
                             latestVersion = currentVersion;
-                            for(HollowConsumer consumer : subscribedConsumers)
+                            for (HollowConsumer consumer : subscribedConsumers)
                                 consumer.triggerAsyncRefresh();
                         }
 
